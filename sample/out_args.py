@@ -11,7 +11,7 @@ def main():
     cvalue = None
 
     for arg in sys.argv[1:]:
-        if arg[0] == '-':
+        if len(arg) and arg[0] == '-':
             args[cname] = cvalue
             cname = arg
             cvalue = None

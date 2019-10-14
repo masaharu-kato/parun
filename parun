@@ -1,2 +1,2 @@
 #!/bin/sh
-src/main.py $@
+`dirname $0`/src/main.py $@

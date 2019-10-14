@@ -18,13 +18,12 @@
                 {"-n": 250},
                 {"-pb": 0, "-order": "first"},
                 {}
-            ],
-            "patterns": {},
-            "formatted": {}
+            ]
         },
         "args02":{
-            "constant": {},
-            "additionals": {},
+            "constant": {
+                "-cval": 25
+            },
             "patterns": {
                 "-pa": 156,
                 "-pb": 424.18,
@@ -36,12 +35,18 @@
             }
         },
         "args03": {
-            "constant": {},
-            "additionals": {},
+            "constant": {
+                "-cval": 35
+            },
+            "additionals":[
+                {"-opt1": null},
+                {"-opt2": null}
+            ],
             "patterns": {
+                "-flag": null,
                 "-pa": 156,
                 "-pb": 424.18,
-                "-color": ["orange", "red", "blue", "green"],
+                "-color": ["red", "blue"],
                 "-order": ["first", "second", "third"],
                 "-n": [50, 100]
             },

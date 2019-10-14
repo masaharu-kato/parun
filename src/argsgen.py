@@ -11,7 +11,15 @@ def generate_commands_from_setting_file(filepath:str, args_name:str):
 
 
 def generate_commands_from_settings(settings:dict, args_name:str):
-    return [[settings['target'], *itertools.chain.from_iterable([(str(key), str(value)) for key, value in args.items()])] for args in generate_args_from_settings(settings, args_name)]
+    return [[
+        settings['target'],
+        *itertools.chain.from_iterable([get_string_keyvalue_pair(key, value) for key, value in args.items()])
+    ] for args in generate_args_from_settings(settings, args_name)]
+
+
+def get_string_keyvalue_pair(key, value):
+    if value is None: return (str(key),)
+    return (str(key), str(value))
 
 
 def generate_args_from_settings(settings:dict, args_name:str):
@@ -22,24 +30,31 @@ def generate_args_from_settings(settings:dict, args_name:str):
     c_args = settings['args'][args_name]
 
     return generate_args(
-        constant    = c_args['constant'   ],
-        additionals = c_args['additionals'],
-        patterns    = c_args['patterns'   ],
-        formatted   = c_args['formatted'  ],
+        constant    = c_args.get('constant'   ),
+        additionals = c_args.get('additionals'),
+        patterns    = c_args.get('patterns'   ),
+        formatted   = c_args.get('formatted'  ),
     )
 
 
 def generate_args(*, constant:dict, additionals:list, patterns:dict, formatted:dict) -> list:
+
+    if constant is None: constant = {}
+    if additionals is None or not len(additionals): additionals = [{}]
+    if patterns is None: patterns = {}
+    if formatted is None: formatted = {}
+
+    base_args_list = [dict(itertools.chain(constant.items(), additional.items())) for additional in additionals]
 
     return [
         dict(itertools.chain(
             args.items(),
             {key:value.format(**args) for key, value in formatted.items()}.items()
         ))
-        for args in itertools.chain.from_iterable([
-            [dict(itertools.chain(constant.items(), additional.items())) for additional in additionals],
-            dict_product(patterns)
-        ])
+        for args in [
+            dict(itertools.chain(pair[0].items(), pair[1].items()))
+            for pair in itertools.product(base_args_list, dict_product(patterns))
+        ]
     ]
 
 
