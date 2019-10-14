@@ -1,0 +1,54 @@
+{
+    "target": "sample/out_args.py",
+    "execution":{
+        "permit_concurrent": true,
+        "permit_remote": true,
+        "required_cpu_rate": 100,
+        "timeout_sec": 60
+    },
+    "args": {
+        "args01": {
+            "constant": {
+                "-pa": 143,
+                "-pb": -64.245
+            },
+            "additionals": [
+                {"-color": "orange", "-order": "second"},
+                {"-color": "blue", "-order": "thrid", "-n": 180},
+                {"-n": 250},
+                {"-pb": 0, "-order": "first"},
+                {}
+            ],
+            "patterns": {},
+            "formatted": {}
+        },
+        "args02":{
+            "constant": {},
+            "additionals": {},
+            "patterns": {
+                "-pa": 156,
+                "-pb": 424.18,
+                "-color": ["orange", "red", "blue", "green"],
+                "-n": [100, 120]
+            },
+            "formatted": {
+                "-o": "out/sample/out_args/n{-n}_{-color}.json"
+            }
+        },
+        "args03": {
+            "constant": {},
+            "additionals": {},
+            "patterns": {
+                "-pa": 156,
+                "-pb": 424.18,
+                "-color": ["orange", "red", "blue", "green"],
+                "-order": ["first", "second", "third"],
+                "-n": [50, 100]
+            },
+            "formatted": {
+                "-i": "input_n{-n:>03}.bin",
+                "-o": "out/sample/out_args/n{-n:>03}_{-color}_{-order}.json"
+            }
+        }
+    }
+}
