@@ -1,0 +1,112 @@
+{
+    "target": "sample/out_args.py",
+    "execution":{
+        "permit_concurrent": true,
+        "permit_remote": true,
+        "required_cpu_rate": 100,
+        "timeout_sec": 60
+    },
+    "args": {
+        "pargs01": {"": [
+            "hoge",
+            "fuga"
+        ]},
+        "pargs02": [
+            {"": [
+                "hoge",
+                "fuga01"
+            ]},
+            {"": [
+                "hoge",
+                "fuga02"
+            ]}
+        ],
+        "pargs03": {"":[
+            "hoge",
+            ["fuga01", "fuga02"]
+        ]},
+        "pargs04": {"":[
+            "hoge",
+            [["fuga01", "fuga02"], "fuga03"]
+        ]},
+        "pargs05": {"":[
+            ["hogeA", "hogeB"],
+            [["fuga01", "fuga02"]]
+        ]},
+        "kwargs01": {
+            "-pa": 45,
+            "-pb": -2.67
+        },
+        "kwargs02a": [
+            {"-pa": 45, "-pb": -2.67},
+            {"-pa": 45, "-pb": 4.33}
+        ],
+        "kwargs02b": {
+            "-pa": 45,
+            "-pb": [-2.67, 4.33]
+        },
+        "kwargs03": {
+            "-pa": 45,
+            "-pb": [-2.67, 4.33],
+            "-pc": ["hoge", "fugga", "piyopiyo"]
+        },
+        "kwargs04": [[
+            {
+                "-pa": 143,
+                "-pb": -64.245
+            }, [
+                {"-color": "orange", "-order": "second"},
+                {"-color": "blue", "-order": "thrid", "-n": 180},
+                {"-n": 250},
+                {"-pb": 0, "-order": "first"},
+                {}
+            ]
+        ]],
+        "kwargs05": [[
+            { "-pa": 120, "-pb": -20},
+            [{"-pc1": 41}, {"-pc2": 42}],
+            [{"-pd1": "foo1", "-pd2": "foo2", "-pd3": "foo3"}]
+        ]],
+        "kwargs06":{
+            "-cval": 25,
+            "-pa": 156,
+            "-pb": 424.18,
+            "--color": ["orange", "red", "blue", "green"],
+            "-n": [100, 120],
+            ">": {"__format__": "out/n{-n}_{-color}.json"}
+        },
+        "kwargs07a":{
+            "-pa": 90,
+            "-cols": [["orange", "red", "blue", "green"]],
+            "-n": [100, 200]
+        },
+        "kwargs07b":{
+            "-pa": 90,
+            "-cols": "orange red",
+            "-n": [100, 200]
+        },
+        "kwargs08":{
+            "-pa": 90,
+            "-cols": [["orange", "red"], ["ocean blue", "natural green 2", "yellow"]],
+            "--indexes": [0, [2, 5, 4], [-4, 0, [1, 2], 13]]
+        },
+        "pkwargs01":{
+            "": [["hoge", "fuga"], "foobar"],
+            "-pa": 156,
+            "-n": [100, 120],
+            ">": {"__format__": "out/n{-n}_{$1}_{$2}.json"}
+        },
+        "allargs01": {
+            "": [{"__format__": "res/input_n{-n:>03}.bin"}],
+            "-cval": 35,
+            "-opt1": null,
+            "-opt2": null,
+            "-pa": 156,
+            "-pb": 424.18,
+            "-color": ["red", "blue"],
+            "-order": ["first", "second", "third"],
+            "-n": [50, 100],
+            ">": {"__format__": "out/n{-n:>03}_{-color}_{-order}.json"}
+        }
+    }
+}

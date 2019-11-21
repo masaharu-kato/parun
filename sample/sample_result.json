@@ -1,0 +1,98 @@
+{
+    "args_result": {
+        "pargs01": [
+            ["hoge", "fuga"]
+        ],
+        "pargs02": [
+            ["hoge", "fuga01"],
+            ["hoge", "fuga02"]
+        ],
+        "pargs03": [
+            ["hoge", "fuga01"],
+            ["hoge", "fuga02"]
+        ],
+        "kwargs01": [
+            ["-pa", "45", "-pb", "-2.67"]
+        ],
+        "kwargs02a": [
+            ["-pa", "45", "-pb", "-2.67"],
+            ["-pa", "45", "-pb", "4.33"]
+        ],
+        "kwargs02b": [
+            ["-pa", "45", "-pb", "-2.67"],
+            ["-pa", "45", "-pb", "4.33"]
+        ],
+        "kwargs03": [
+            ["-pa", "45", "-pb", "-2.67", "-pc", "hoge"    ],
+            ["-pa", "45", "-pb", "-2.67", "-pc", "fugga"   ],
+            ["-pa", "45", "-pb", "-2.67", "-pc", "piyopiyo"],
+            ["-pa", "45", "-pb",  "4.33", "-pc", "hoge"    ],
+            ["-pa", "45", "-pb",  "4.33", "-pc", "fugga"   ],
+            ["-pa", "45", "-pb",  "4.33", "-pc", "piyopiyo"]
+        ],
+        "kwargs04": [
+            ["-pa", "143", "-pb", "-64.245", "-color", "orange", "-order", "second"],
+            ["-pa", "143", "-pb", "-64.245", "-color", "blue", "-order", "thrid", "-n", "180"],
+            ["-pa", "143", "-pb", "-64.245", "-n", "250"],
+            ["-pa", "143", "-pb", "-64.245", "-pb", "0", "-order", "first"],
+            ["-pa", "143", "-pb", "-64.245"]
+        ],
+        "kwargs05": [
+            ["-pa", "120", "-pb", "-20", "-pc1", "41", "-pd1", "foo1"],
+            ["-pa", "120", "-pb", "-20", "-pc1", "41", "-pd2", "foo2"],
+            ["-pa", "120", "-pb", "-20", "-pc1", "41", "-pd3", "foo3"],
+            ["-pa", "120", "-pb", "-20", "-pc2", "42", "-pd1", "foo1"],
+            ["-pa", "120", "-pb", "-20", "-pc2", "42", "-pd2", "foo2"],
+            ["-pa", "120", "-pb", "-20", "-pc2", "42", "-pd3", "foo3"]
+        ],
+        "kwargs06":[
+            ["-cval", "25", "-pa", "156", "-pb", "424.18", "--color", "orange", "-n", "100", ">", "out/n100_orange.json"],
+            ["-cval", "25", "-pa", "156", "-pb", "424.18", "--color", "orange", "-n", "200", ">", "out/n200_orange.json"],
+            ["-cval", "25", "-pa", "156", "-pb", "424.18", "--color", "red"   , "-n", "100", ">", "out/n100_red.json"   ],
+            ["-cval", "25", "-pa", "156", "-pb", "424.18", "--color", "red"   , "-n", "200", ">", "out/n200_red.json"   ],
+            ["-cval", "25", "-pa", "156", "-pb", "424.18", "--color", "blue"  , "-n", "100", ">", "out/n100_blue.json"  ],
+            ["-cval", "25", "-pa", "156", "-pb", "424.18", "--color", "blue"  , "-n", "200", ">", "out/n200_blue.json"  ],
+            ["-cval", "25", "-pa", "156", "-pb", "424.18", "--color", "green" , "-n", "100", ">", "out/n100_green.json" ],
+            ["-cval", "25", "-pa", "156", "-pb", "424.18", "--color", "green" , "-n", "200", ">", "out/n200_green.json" ]
+        ],
+        "kwargs07a": [
+            ["-pa", "90", "-cols", "orange", "red", "blue", "green", "-n", "100"],
+            ["-pa", "90", "-cols", "orange", "red", "blue", "green", "-n", "200"]
+        ],
+        "kwargs07b": [
+            ["-pa", "90", "-cols", "\"orange red\"", "-n", "100"],
+            ["-pa", "90", "-cols", "\"orange red\"", "-n", "200"]
+        ],
+        "kwargs08": [
+            ["-pa", "90", "-cols", "orange", "red", "--indexes", "0"],
+            ["-pa", "90", "-cols", "orange", "red", "--indexes", "2", "5", "4"],
+            ["-pa", "90", "-cols", "orange", "red", "--indexes", "-4", "0", "1", "13"],
+            ["-pa", "90", "-cols", "orange", "red", "--indexes", "-4", "0", "2", "13"],
+            ["-pa", "90", "-cols", "\"ocean blue\"", "\"natural green 2\"", "--indexes", "0"],
+            ["-pa", "90", "-cols", "\"ocean blue\"", "\"natural green 2\"", "--indexes", "2", "5", "4"],
+            ["-pa", "90", "-cols", "\"ocean blue\"", "\"natural green 2\"", "--indexes", "-4", "0", "1", "13"],
+            ["-pa", "90", "-cols", "\"ocean blue\"", "\"natural green 2\"", "--indexes", "-4", "0", "2", "13"]
+        ],
+        "pkwargs01":[
+            ["hoge", "foobar", "-pa", "156", "-n", "100", ">", "out/n100_hoge_foobar.json"],
+            ["hoge", "foobar", "-pa", "156", "-n", "200", ">", "out/n200_hoge_foobar.json"],
+            ["fuga", "foobar", "-pa", "156", "-n", "100", ">", "out/n100_fuga_foobar.json"],
+            ["fuga", "foobar", "-pa", "156", "-n", "200", ">", "out/n200_fuga_foobar.json"]
+        ],
+        "allargs01":[
+            ["res/input_n050.bin", "-cval", "35", "-opt1", "-opt2", "-pa", "156", "-pb", "424.18", "-color", "red" , "-order", "first" , "-n",  "50", ">", "out/n050_red_first.json"],
+            ["res/input_n100.bin", "-cval", "35", "-opt1", "-opt2", "-pa", "156", "-pb", "424.18", "-color", "red" , "-order", "first" , "-n", "100", ">", "out/n100_red_first.json"],
+            ["res/input_n050.bin", "-cval", "35", "-opt1", "-opt2", "-pa", "156", "-pb", "424.18", "-color", "red" , "-order", "second", "-n",  "50", ">", "out/n050_red_second.json"],
+            ["res/input_n100.bin", "-cval", "35", "-opt1", "-opt2", "-pa", "156", "-pb", "424.18", "-color", "red" , "-order", "second", "-n", "100", ">", "out/n100_red_second.json"],
+            ["res/input_n050.bin", "-cval", "35", "-opt1", "-opt2", "-pa", "156", "-pb", "424.18", "-color", "red" , "-order", "third" , "-n",  "50", ">", "out/n050_red_third.json"],
+            ["res/input_n100.bin", "-cval", "35", "-opt1", "-opt2", "-pa", "156", "-pb", "424.18", "-color", "red" , "-order", "third" , "-n", "100", ">", "out/n100_red_third.json"],
+            ["res/input_n050.bin", "-cval", "35", "-opt1", "-opt2", "-pa", "156", "-pb", "424.18", "-color", "blue", "-order", "first" , "-n",  "50", ">", "out/n050_blue_first.json"],
+            ["res/input_n100.bin", "-cval", "35", "-opt1", "-opt2", "-pa", "156", "-pb", "424.18", "-color", "blue", "-order", "first" , "-n", "100", ">", "out/n100_blue_first.json"],
+            ["res/input_n050.bin", "-cval", "35", "-opt1", "-opt2", "-pa", "156", "-pb", "424.18", "-color", "blue", "-order", "second", "-n",  "50", ">", "out/n050_blue_second.json"],
+            ["res/input_n100.bin", "-cval", "35", "-opt1", "-opt2", "-pa", "156", "-pb", "424.18", "-color", "blue", "-order", "second", "-n", "100", ">", "out/n100_blue_second.json"],
+            ["res/input_n050.bin", "-cval", "35", "-opt1", "-opt2", "-pa", "156", "-pb", "424.18", "-color", "blue", "-order", "third" , "-n",  "50", ">", "out/n050_blue_third.json"],
+            ["res/input_n100.bin", "-cval", "35", "-opt1", "-opt2", "-pa", "156", "-pb", "424.18", "-color", "blue", "-order", "third" , "-n", "100", ">", "out/n100_blue_third.json"]
+        
+        ]
+    }
+}
