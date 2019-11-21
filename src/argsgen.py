@@ -1,66 +1,85 @@
-import json
 import itertools
 
-
-def generate_commands_from_setting_file(filepath:str, args_name:str):
-
-    with open(filepath, mode='r') as f:
-        settings = json.load(f)
-
-    return generate_commands_from_settings(settings, args_name)
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Union as UnionType
+ArgVal = UnionType[str, Iterable[str]] # Optional[Union[int, float, str]]
+IArgVal = UnionType[ArgVal, List[ArgVal]]
 
 
-def generate_commands_from_settings(settings:dict, args_name:str):
-    return [[
-        settings['target'],
-        *itertools.chain.from_iterable([get_string_keyvalue_pair(key, value) for key, value in args.items()])
-    ] for args in generate_args_from_settings(settings, args_name)]
+class Args:
+    def __init__(self, pargs:list, kwargs:dict):
+        self.pargs = pargs
+        self.kwargs = kwargs
 
 
-def get_string_keyvalue_pair(key, value):
-    if value is None: return (str(key),)
-    return (str(key), str(value))
+    def command_args(self) -> Iterator[str]:
+        yield from self.pargs
+        yield from itertools.chain.from_iterable(map(self.keyvalue_to_cmd_args, self.kwargs.items()))
 
 
-def generate_args_from_settings(settings:dict, args_name:str):
-
-    if args_name not in settings['args']:
-        raise RuntimeError('Specified args name not found.')
-
-    c_args = settings['args'][args_name]
-
-    return generate_args(
-        constant    = c_args.get('constant'   ),
-        additionals = c_args.get('additionals'),
-        patterns    = c_args.get('patterns'   ),
-        formatted   = c_args.get('formatted'  ),
-    )
+    @staticmethod
+    def keyvalue_to_cmd_args(keyvalue:Tuple[ArgName, ArgVal]) -> Iterator[str]:
+        key, v = keyvalue
+        yield key
+        if v is not None:
+            if hasattr(v, '__iter__'):
+                yield from v
+            else:
+                yield v
 
 
-def generate_args(*, constant:dict, additionals:list, patterns:dict, formatted:dict) -> list:
 
-    if constant is None: constant = {}
-    if additionals is None or not len(additionals): additionals = [{}]
-    if patterns is None: patterns = {}
-    if formatted is None: formatted = {}
-
-    base_args_list = [dict(itertools.chain(constant.items(), additional.items())) for additional in additionals]
-
-    return [
-        dict(itertools.chain(
-            args.items(),
-            {key:value.format(**args) for key, value in formatted.items()}.items()
-        ))
-        for args in [
-            dict(itertools.chain(pair[0].items(), pair[1].items()))
-            for pair in itertools.product(base_args_list, dict_product(patterns))
-        ]
-    ]
+class Union():
+    def __init__(self, *vals):
+        self.vals = vals
 
 
-def dict_product(i_dict:dict) -> list:
-    return _dict_product({key:elm if type(elm) is list else [elm] for key, elm in i_dict.items()})
+    def __iter__(self):
+        return self.vals
 
 
-def _dict_product(i_dict:dict) -> list:
-    return (dict(zip(i_dict.keys(), values)) for values in itertools.product(*i_dict.values()))
+class Product:
+    def __init__(self, *vals):
+        self.vals = vals
+
+
+    def __iter__(self):
+        #TODO: Correct Implementation
+        return itertools.product(*self.vals)
+
+
+
+class Format():
+    def __init__(self, text:str):
+        self.text = text
+
+
+    def format(self, args:Args):
+        # TODO: Corresponds to positional arguments
+        return self.text.format(*args.kwargs)
+
+
+
+class ArgsPattern:
+    def __init__(self, iargs:Dict[ArgName, IArgVal]):
+        self.iargs = iargs
+
+
+    def args(self) -> Iterator[Dict[str, str]]:
+        return self.dict_product_with_kv(
+            self.iargs.keys(),
+            map(self.iargval_to_argval, self.iargs.values())
+        )
+
+
+    @staticmethod
+    def iargval_to_argval(v:ArgValueEx) -> Iterator[ArgVal]:
+        if hasattr(v, '__iter__'):
+            yield from v
+        else:
+            yield v
+
+
+    @staticmethod
+    def dict_product_with_kv(keys:Iterable, values:Iterable) -> Iterator[Dict]:
+        return (dict(zip(keys, values)) for values in itertools.product(values))
+
