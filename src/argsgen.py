@@ -21,33 +21,10 @@ class Args:
         key, v = keyvalue
         yield key
         if v is not None:
-            if hasattr(v, '__iter__'):
+            if isinstance(v, Iterable):
                 yield from v
             else: 
                 yield v
-
-
-
-class Union:
-    def __init__(self, *vals):
-        self.vals = vals
-
-
-    def __iter__(self) -> Iterator:
-        yield from self.vals
-
-
-
-class Product:
-    def __init__(self, *vals):
-        self.vals = vals
-
-
-    def __iter__(self) -> Iterator:
-        yield from itertools.product(
-            *(v if hasattr(v, '__iter__') else [v] for v in self.vals)
-        )
-
 
 
 class Format:
@@ -77,7 +54,7 @@ class ArgsPattern:
 
     @staticmethod
     def iargval_to_argval(v) -> Iterator[ArgVal]:
-        if hasattr(v, '__iter__'):
+        if isinstance(v, Iterable):
             yield from v
         else:
             yield v
