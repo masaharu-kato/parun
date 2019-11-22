@@ -9,34 +9,40 @@ class Args:
     def __init__(self, pargs:list, kwargs:dict):
         self.pargs = pargs
         self.kwargs = kwargs
+        self.args_for_format = {
+            **{'$'+str(i):v for i, v in enumerate(self.pargs, 1)},
+            **self.kwargs
+        }
 
 
-    def command_args(self) -> Iterator[str]:
+    def cmdargs(self) -> Iterator[str]:
+        yield from map(str, self.raw_cmdargs())
+
+
+    def raw_cmdargs(self) -> Iterator:
         yield from self.pargs
         yield from itertools.chain.from_iterable(map(self.keyvalue_to_cmd_args, self.kwargs.items()))
 
 
     @staticmethod
-    def keyvalue_to_cmd_args(keyvalue:Tuple[str, ArgVal]) -> Iterator[str]:
+    def keyvalue_to_cmdargs(keyvalue:Tuple[str, ArgVal]) -> Iterator[str]:
         key, v = keyvalue
         yield key
         if v is not None:
             if isinstance(v, Iterable):
                 yield from v
-            else: 
+            else:
                 yield v
 
 
 class Format:
-    def __init__(self, text:str):
+    def __init__(self, text:str, args:Dict[str, ArgVal]):
         self.text = text
+        self.args = args
 
 
-    def format(self, args:Args) -> str:
-        return self.text.format(
-            **{'$'+str(i):v for i, v in enumerate(args.pargs, 1)},
-            **args.kwargs
-        )
+    def __str__(self) -> str:
+        return self.text.format(**self.args)
 
 
 
@@ -58,9 +64,4 @@ class ArgsPattern:
             yield from v
         else:
             yield v
-
-
-    @staticmethod
-    def dict_product_with_kv(keys:Iterable, values:Iterable) -> Iterator[Dict]:
-        return ({**zip(keys, values)} for values in itertools.product(values))
 
