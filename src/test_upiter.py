@@ -15,6 +15,21 @@ import upiter
             (1, (2, 3, 7), (2, 3, 8), (2, (4, 5), 7), (2, (4, 5), 8), (2, 6, 7), (2, 6, 8), (9, 10, 11), (9, 10, 12))
         ),
         ([1, [2, [3, 4], 5], 6], (1, (2, 3, 5), (2, 4, 5), 6)),
+        (
+            {'hoge':'abc', 'foo':[2, 'fuga']},
+            (
+                {'hoge':'abc', 'foo':(2, 'fuga')},
+            )
+        ),
+        (
+            (
+                {'hoge':'abc', 'foo':[[2, 'fuga']]},
+                {'hoge':'xyz', 'bar':'piyo'},
+            ), (
+                {'hoge':'abc', 'foo':(2, 'fuga')},
+                {'hoge':'xyz', 'bar':'piyo'},
+            )
+        ),
     ]
 )
 def test_union_product(vals, result):
