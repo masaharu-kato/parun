@@ -1,3 +1,4 @@
+import functools
 import itertools
 from typing import Dict, Iterable, Iterator, Union
 
@@ -24,6 +25,11 @@ def product_union(vals) -> Union[Iterable, Dict]:
 
 def _is_iterable(vals) -> bool:
     return isinstance(vals, Iterable) and not isinstance(vals, (str, bytes))
+
+
+def dict_flatten(dicts:Iterable[Dict]) -> Dict:
+    return functools.reduce(lambda a, b:{**a, **b}, dicts)
+    
 
 
 # def main():

@@ -87,3 +87,39 @@ def test_union_product(vals, result):
 )
 def test_product_union(vals, result):
     assert tuple(upiter.product_union(vals)) == result
+
+
+
+@pytest.mark.parametrize(
+    'dicts, result', [
+        (
+            ({'hoge':'abc', 'foo':1, 'bar':'puyo'},),
+            {'hoge':'abc', 'foo':1, 'bar':'puyo'}
+        ), (
+            ({'hoge':'abc', 'foo':1, 'bar':'puyo'}, {'hoge':'xyzz', 'foo':42, 'bar':'poyow'}),
+            {'hoge':'xyzz', 'foo':42, 'bar':'poyow'}
+        ), (
+            ({'hoge':'abc', 'foo':1, 'bar':'puyo'}, {'foo':42, 'bar':'poyow'}),
+            {'hoge':'abc', 'foo':42, 'bar':'poyow'}
+        ), (
+            ({'hoge':'abc', 'foo':1, 'bar':'puyo'}, {'foo':42, 'extra':'hahaha', 'bar':'poyow'}),
+            {'hoge':'abc', 'foo':42, 'bar':'poyow', 'extra':'hahaha'}
+        ), (
+            ({'hoge':'abc', 'foo':1, 'bar':'puyo'}, {}),
+            {'hoge':'abc', 'foo':1, 'bar':'puyo'}
+        ), (
+            ({'hoge':'abc', 'foo':1, 'bar':'puyo'}, {'hoge2':'abc2', 'foo2':12}),
+            {'hoge':'abc', 'foo':1, 'bar':'puyo', 'hoge2':'abc2', 'foo2':12}
+        ), (
+            (
+                {'hoge':'abc', 'foo':1, 'bar':'puyo'},
+                {'hoge2':'abc2', 'foo':12},
+                {'hoge1':['abc1', 'abc2'], 'hoge2':'ABC2', 'hoge3':'xyz3'},
+                {'bar':142.5, 'bar_2':285.0}
+            ),
+            {'hoge':'abc', 'foo':12, 'bar':142.5, 'hoge2':'ABC2', 'hoge1':['abc1', 'abc2'], 'hoge3':'xyz3', 'bar_2':285.0}
+        )
+    ]
+)
+def test_dict_flatten(dicts, result):
+    assert upiter.dict_flatten(dicts) == result
