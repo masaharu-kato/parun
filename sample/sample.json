@@ -7,32 +7,43 @@
         "timeout_sec": 60
     },
     "args": {
-        "pargs01": {"": [
-            "hoge",
-            "fuga"
-        ]},
+        "pargs00": {
+            "": "hello"
+        },
+        "pargs01": {
+            "": [[
+                "hoge",
+                "fuga"
+            ]]
+        },
         "pargs02": [
-            {"": [
+            {"": [[
                 "hoge",
                 "fuga01"
-            ]},
-            {"": [
+            ]]},
+            {"": [[
                 "hoge",
                 "fuga02"
-            ]}
+            ]]}
         ],
-        "pargs03": {"":[
-            "hoge",
-            ["fuga01", "fuga02"]
-        ]},
-        "pargs04": {"":[
-            "hoge",
-            [["fuga01", "fuga02"], "fuga03"]
-        ]},
-        "pargs05": {"":[
-            ["hogeA", "hogeB"],
-            [["fuga01", "fuga02"]]
-        ]},
+        "pargs03": {
+            "":[[
+                "hoge",
+                ["fuga01", "fuga02"]
+            ]]
+        },
+        "pargs04": {
+            "":[[
+                "hoge",
+                [["fuga01", "fuga02"], "fuga03"]
+            ]]
+        },
+        "pargs05": {
+            "":[[
+                ["hogeA", "hogeB"],
+                [["fuga01", "fuga02"]]
+            ]]
+        },
         "kwargs01": {
             "-pa": 45,
             "-pb": -2.67
@@ -50,7 +61,7 @@
             "-pb": [-2.67, 4.33],
             "-pc": ["hoge", "fugga", "piyopiyo"]
         },
-        "kwargs04": [[
+        "kwargs04": [
             {
                 "-pa": 143,
                 "-pb": -64.245
@@ -61,7 +72,7 @@
                 {"-pb": 0, "-order": "first"},
                 {}
             ]
-        ]],
+        ],
         "kwargs05": [[
             { "-pa": 120, "-pb": -20},
             [{"-pc1": 41}, {"-pc2": 42}],
@@ -91,13 +102,13 @@
             "--indexes": [0, [2, 5, 4], [-4, 0, [1, 2], 13]]
         },
         "pkwargs01":{
-            "": [["hoge", "fuga"], "foobar"],
+            "": [[["hoge", "fuga"], "foobar"]],
             "-pa": 156,
             "-n": [100, 120],
             ">": {"__format__": "out/n{-n}_{$1}_{$2}.json"}
         },
         "allargs01": {
-            "": [{"__format__": "res/input_n{-n:>03}.bin"}],
+            "": {"__format__": "res/input_n{-n:>03}.bin"},
             "-cval": 35,
             "-opt1": null,
             "-opt2": null,

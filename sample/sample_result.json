@@ -1,5 +1,8 @@
 {
     "args_result": {
+        "pargs00": [
+            ["hello"]
+        ],
         "pargs01": [
             ["hoge", "fuga"]
         ],
