@@ -1,4 +1,4 @@
-import pytest
+import pytest #type:ignore
 import upiter
 
 @pytest.mark.parametrize(
@@ -91,6 +91,30 @@ def test_product_union(vals, result):
 
 
 @pytest.mark.parametrize(
+    'args, result', [(
+            ({'hoge':'abc', 'foo':1, 'bar':'puyo'}, {'hoge':'xyzz', 'foo':42, 'bar':'poyow'}),
+            {'hoge':'xyzz', 'foo':42, 'bar':'poyow'}
+        ), (
+            ({'hoge':'abc', 'foo':1, 'bar':'puyo'}, {'foo':42, 'bar':'poyow'}),
+            {'hoge':'abc', 'foo':42, 'bar':'poyow'}
+        ), (
+            ({'hoge':'abc', 'foo':1, 'bar':'puyo'}, {'foo':42, 'extra':'hahaha', 'bar':'poyow'}),
+            {'hoge':'abc', 'foo':42, 'bar':'poyow', 'extra':'hahaha'}
+        ), (
+            ({'hoge':'abc', 'foo':1, 'bar':'puyo'}, {}),
+            {'hoge':'abc', 'foo':1, 'bar':'puyo'}
+        ), (
+            ({'hoge':'abc', 'foo':1, 'bar':'puyo'}, {'hoge2':'abc2', 'foo2':12}),
+            {'hoge':'abc', 'foo':1, 'bar':'puyo', 'hoge2':'abc2', 'foo2':12}
+        )
+    ]
+)
+def test_merge_dicts(args, result):
+    assert upiter.merge_dicts(*args) == result
+
+
+
+@pytest.mark.parametrize(
     'dicts, result', [
         (
             ({'hoge':'abc', 'foo':1, 'bar':'puyo'},),
@@ -112,14 +136,92 @@ def test_product_union(vals, result):
             {'hoge':'abc', 'foo':1, 'bar':'puyo', 'hoge2':'abc2', 'foo2':12}
         ), (
             (
-                {'hoge':'abc', 'foo':1, 'bar':'puyo'},
-                {'hoge2':'abc2', 'foo':12},
+                {'hoge':'abc', 'foo':[1, 3, 4], 'bar':'puyo'},
+                {'hoge2':'abc2', 'foo':[12, 17, 26, 32]},
                 {'hoge1':['abc1', 'abc2'], 'hoge2':'ABC2', 'hoge3':'xyz3'},
                 {'bar':142.5, 'bar_2':285.0}
             ),
-            {'hoge':'abc', 'foo':12, 'bar':142.5, 'hoge2':'ABC2', 'hoge1':['abc1', 'abc2'], 'hoge3':'xyz3', 'bar_2':285.0}
-        )
+            {'hoge':'abc', 'foo':[12, 17, 26, 32], 'bar':142.5, 'hoge2':'ABC2', 'hoge1':['abc1', 'abc2'], 'hoge3':'xyz3', 'bar_2':285.0}
+        ),
+        # (
+        #     (
+        #         {'hoge':('abc',), 'foo':(1,), 'bar':'puyo'},
+        #         {'hoge':'wxyz', 'foo':15, 'baz':'puga'},
+        #     ),
+        #     {'hoge':('abc', 'wxyz'), 'foo':(1, 15), 'bar':'puyo', 'baz':'puga'}
+        # ), (
+        #     (
+        #         {'hoge':['abc'], 'foo':[1], 'bar':'puyo'},
+        #         {'hoge':'wxyz', 'foo':[15, 25], 'baz':'puga'},
+        #         {'abc':3.1416, 'foo':(23, 13, 25), 'bar':111}
+        #     ),
+        #     {'hoge':('abc', 'wxyz'), 'foo':(1, 15, 25, 23, 13, 25), 'bar':'puyo', 'baz':('puga', 111), 'abc':3.1416}
+        # ), (
+        #     (
+        #         {'hoge':'abc', 'foo':(1,), 'bar':['puyo']},
+        #         {'hoge':['wxyz'], 'foo':15, 'baz':('puga',)},
+        #         {'abc':[[3.1416]], 'foo':((23, 13, 25),), 'baz':111}
+        #     ),
+        #     {'hoge':['wxyz'], 'foo':(1, 15, (23, 13, 25)), 'bar':'puyo', 'baz':('puga', 111), 'abc':[3.1416]}
+        # )
     ]
 )
-def test_dict_flatten(dicts, result):
-    assert upiter.dict_flatten(dicts) == result
+def test_dict_union(dicts, result):
+    assert upiter.dict_union(dicts) == result
+
+
+
+@pytest.mark.parametrize(
+    'arg, result', [
+        (25, False),
+        ([], True),
+        ([25], True),
+        ([25, -13], True),
+        ("25", False),
+        (tuple(), True),
+        ((25, ), True),
+        ((25, -13, 34, 0), True),
+        (set(), True),
+        ({13, 25, 12}, True),
+        (None, False),
+        (True, False),
+        ({}, True),
+        ({'hoge':25}, True),
+        (('#'+str(i) for i in range(5)), True)
+    ]
+)
+def test_is_iterable(arg, result):
+    assert upiter.is_iterable(arg) == result
+
+
+
+@pytest.mark.parametrize(
+    'arg, result', [
+        (25, (25,)),
+        ([], []),
+        ([25, -13], [25, -13]),
+        ("25", ("25",)),
+        (tuple(), tuple()),
+        ((25, -13, 34, 0), (25, -13, 34, 0)),
+        (set(), set()),
+        ({13, 25, 12}, {13, 25, 12}),
+        (None, tuple()),
+        (True, (True,)),
+        ({}, {}),
+        ({'hoge':25}, {'hoge':25})
+    ]
+)
+def test_as_iterable(arg, result):
+    assert upiter.as_iterable(arg) == result
+
+
+
+@pytest.mark.parametrize(
+    'args, result', [(
+        (str, [25, -34.56, {'hoge':'HOGE', 'fuga':[423, {'foo':('bar', 12, 345)}], 'pi':3.1416}, 'something']),
+        ['25', '-34.56', {'hoge':'HOGE', 'fuga':['423', {'foo':('bar', '12', '345')}], 'pi':'3.1416'}, 'something']
+    )]
+)
+def test_any_map(args, result):
+    assert [*upiter.any_map(*args)] == result
+
