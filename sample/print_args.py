@@ -3,8 +3,8 @@ import json
 import sys
 import os
 
-def main():
 
+def main():
 
     args = {}
     cname = ''
@@ -24,14 +24,7 @@ def main():
                 cvalue = arg
 
     args[cname] = cvalue
-
-    if '-o' in args:
-        outpath = args['-o']
-        os.makedirs(os.path.dirname(outpath), exist_ok=True)
-        with open(outpath, mode='w') as f:
-            json.dump(args, f)
-    else:
-        print(args)
+    print(args)
 
     return
 

@@ -1,5 +1,5 @@
 {
-    "target": "sample/out_args.py",
+    "target": "sample/print_args.py",
     "execution":{
         "permit_concurrent": true,
         "permit_remote": true,
