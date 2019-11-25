@@ -84,7 +84,7 @@
             "-pb": 424.18,
             "--color": ["orange", "red", "blue", "green"],
             "-n": [100, 120],
-            ">": {"__format__": "out/n{-n}_{-color}.json"}
+            ">": {"__format__": "out/n{-n}_{--color}.json"}
         },
         "kwargs07a":{
             "-pa": 90,
