@@ -10,7 +10,7 @@ with open('test/res/print_args_result.json', mode='r') as f:
     result_data = json.load(f)
 
 
-inputs = cfg_data['args']
+inputs = cfg_data['patterns']
 results = result_data['args_result']
 
 test_patterns = {name:(_input, results[name]) for name, _input in inputs.items()}

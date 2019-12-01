@@ -1,0 +1,20 @@
+{
+    "execution_options":{
+        "n_parallel": 7
+    },
+    "pattern": {
+        "": [[
+            "test/res/print_args.py",
+            {"__format__": "res/input_n{-n:>03}.bin"}
+        ]],
+        "-cval": 35,
+        "-opt1": null,
+        "-opt2": null,
+        "-pa": 156,
+        "-pb": 424.18,
+        "-color": ["red", "blue"],
+        "-order": ["first", "second", "third"],
+        "-n": [50, 100],
+        ">": {"__format__": "out/n{-n:>03}_{-color}_{-order}.json"}
+    }
+}

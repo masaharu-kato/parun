@@ -1,6 +1,7 @@
 import pytest #type:ignore
 import upiter
 
+
 @pytest.mark.parametrize(
     'vals, result', [
         ((1,), (1,)),
@@ -17,9 +18,7 @@ import upiter
         ([1, [2, [3, 4], 5], 6], (1, (2, 3, 5), (2, 4, 5), 6)),
         (
             {'hoge':'abc', 'foo':[2, 'fuga']},
-            (
-                {'hoge':'abc', 'foo':(2, 'fuga')},
-            )
+            ({'hoge':'abc', 'foo':(2, 'fuga')},)
         ),
         (
             (
@@ -34,6 +33,27 @@ import upiter
 )
 def test_union_product(vals, result):
     assert tuple(upiter.union_product(vals)) == result
+
+
+
+# @pytest.mark.parametrize(
+#     'vals, result', [
+#         ((1, (2, (3, 4), 5), 6), (1, (2, 3, 5), (2, 4, 5), 6)),
+#         (
+#             {'hoge':'abc', 'foo':[2, 'fuga']},
+#             {'hoge':'abc', 'foo':(2, 'fuga')}
+#         ),
+#         (
+#             (
+#                 {'hoge':'abc', 'foo':[[2, 'fuga']]},
+#                 {'hoge':'xyz', 'bar':'piyo'},
+#             ), {'hoge':'xyz', 'foo':(2, 'fuga'), 'bar':'piyo'}
+#         ),
+#     ]
+# )
+# def test_union_product_with_union_dicts(vals, result):
+#     assert upiter.union_product(vals, union_dicts=True) == result
+
 
 
 @pytest.mark.parametrize(
@@ -87,6 +107,52 @@ def test_union_product(vals, result):
 )
 def test_product_union(vals, result):
     assert tuple(upiter.product_union(vals)) == result
+
+
+
+# @pytest.mark.parametrize(
+#     'vals, result', [
+#         ([1, [2, [3, 4], 5], 6], ((1, 2, 6), (1, (3, 4), 6), (1, 5, 6))),
+#         (
+#             {'hoge':'abc', 'foo':[[1, [[2, 'fuga']], 4]], 'bar': 'puyo'},
+#             ({'hoge':'abc', 'foo':(1, (2, 'fuga'), 4), 'bar': 'puyo'}, )
+#         ),
+#         (
+#             {'hoge':'abc', 'foo':(1, [2, 'fuga'], (4, 5)), 'bar': ['piyopiyo', 'puyo']},
+#             (
+#                 {'hoge':'abc', 'foo':1, 'bar':'piyopiyo'},
+#                 {'hoge':'abc', 'foo':1, 'bar':'puyo'},
+#                 {'hoge':'abc', 'foo':(2, 'fuga'), 'bar':'piyopiyo'},
+#                 {'hoge':'abc', 'foo':(2, 'fuga'), 'bar':'puyo'},
+#                 {'hoge':'abc', 'foo':(4, 5), 'bar':'piyopiyo'},
+#                 {'hoge':'abc', 'foo':(4, 5), 'bar':'puyo'},
+#             )
+#         ),
+#         (
+#             [
+#                 {"ca": 123, "cb": (4567, -890)}, [
+#                     {"additional": "here"},
+#                     {"number": [0, [10, 20], 30]},
+#                     {}
+#                 ]
+#             ],
+#             (
+#                 {"ca": 123, "cb": 4567, "additional": "here"},
+#                 {"ca": 123, "cb": 4567, "number": 0},
+#                 {"ca": 123, "cb": 4567, "number": (10, 20)},
+#                 {"ca": 123, "cb": 4567, "number": 30},
+#                 {"ca": 123, "cb": 4567},
+#                 {"ca": 123, "cb": -890, "additional": "here"},
+#                 {"ca": 123, "cb": -890, "number": 0},
+#                 {"ca": 123, "cb": -890, "number": (10, 20)},
+#                 {"ca": 123, "cb": -890, "number": 30},
+#                 {"ca": 123, "cb": -890},
+#             )
+#         )
+#     ]
+# )
+# def test_product_union_with_union_dicts(vals, result):
+#     assert upiter.product_union(vals, union_dicts=True) == result
 
 
 
@@ -166,8 +232,28 @@ def test_merge_dicts(args, result):
         # )
     ]
 )
-def test_dict_union(dicts, result):
-    assert upiter.dict_union(dicts) == result
+def test_union_dicts(dicts, result):
+    assert upiter.union_dicts(dicts) == result
+
+
+
+@pytest.mark.parametrize(
+    'v, result', [
+        (
+            {'hoge':'abc', 'foo':1, 'bar':'puyo'},
+            {'hoge':'abc', 'foo':1, 'bar':'puyo'}
+        ),
+        (
+            ({'hoge':'abc', 'foo':1, 'bar':'puyo'},),
+            {'hoge':'abc', 'foo':1, 'bar':'puyo'}
+        ), (
+            ({'hoge':'abc', 'foo':1, 'bar':'puyo'}, {'hoge':'xyzz', 'foo':42, 'bar':'poyow'}),
+            {'hoge':'xyzz', 'foo':42, 'bar':'poyow'}
+        )
+    ]
+)
+def test_to_dict(v, result):
+    assert upiter.to_dict(v) == result
 
 
 

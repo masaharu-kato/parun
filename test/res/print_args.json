@@ -1,12 +1,9 @@
 {
-    "target": "sample/print_args.py",
-    "execution":{
-        "permit_concurrent": true,
-        "permit_remote": true,
-        "required_cpu_rate": 100,
-        "timeout_sec": 60
+    "execution_options":{
+        "n_parallel": 7
     },
-    "args": {
+    "program": "test/res/print_args.py",
+    "patterns": {
         "pargs00": {
             "": "hello"
         },

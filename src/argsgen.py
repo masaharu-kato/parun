@@ -35,8 +35,7 @@ def pattern_to_args_iter(pattern) -> Iterator[Args]:
 
 def pattern_to_rawargs_iter(pattern) -> Iterator[Args]:
     """ Generate iterators of raw argument values from pattern """
-    # TODO: Correct Implementation (when top of `pattern` is not dictionary)
-    return cast(Iterator[Args], upiter.product_union(pattern))
+    return map(upiter.to_dict, upiter.product_union(pattern))
 
 
 def rawargs_to_args(rawargs:Args) -> Args:
@@ -47,8 +46,12 @@ def rawargs_to_args(rawargs:Args) -> Args:
     args_for_format:Args = {}
 
     def make_value(v):
-        if isinstance(v, dict) and '__format__' in v:
-            return Format(v['__format__'], args_for_format)
+        if isinstance(v, dict):
+            if '__format__' in v:
+                return Format(v['__format__'], args_for_format)
+            return {_k:make_value(_v) for _k, _v in v.items()}
+        if upiter.is_iterable(v):
+            return [make_value(_v) for _v in v]
         return v
 
     args = {k:make_value(v) for k, v in rawargs.items()}
