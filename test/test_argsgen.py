@@ -1,5 +1,5 @@
 import pytest #type:ignore
-import argsgen
+from src import argsgen
 import json
 
 

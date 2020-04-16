@@ -1,5 +1,5 @@
 import pytest #type:ignore
-import upiter
+from src import upiter
 
 
 @pytest.mark.parametrize(
